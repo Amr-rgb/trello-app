@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useDataContext } from "../context/DataContext";
 
 type CardType = {
   id: number;
@@ -6,6 +7,8 @@ type CardType = {
 };
 
 export const Card = ({ card }: { card: CardType }) => {
+  const { editCard } = useDataContext();
+
   const inputField = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState(card.title);
@@ -13,6 +16,7 @@ export const Card = ({ card }: { card: CardType }) => {
 
   const clickHandler = () => {
     setIsTyping(false);
+    editCard(card.id, value);
   };
 
   useEffect(() => {
