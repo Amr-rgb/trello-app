@@ -17,6 +17,7 @@ type DataContextProps = {
   addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
+  addList: () => void;
   editListTitle: (id: number, title: string) => void;
 };
 
@@ -76,6 +77,19 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const addList = () => {
+    setData((prev) => {
+      return [
+        ...prev,
+        {
+          id: new Date().getTime(),
+          title: "",
+          cards: [],
+        },
+      ];
+    });
+  };
+
   const editListTitle = (id: number, title: string) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -90,7 +104,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <DataContext.Provider
-      value={{ data, addCard, editCard, removeCard, editListTitle }}
+      value={{ data, addCard, editCard, removeCard, addList, editListTitle }}
     >
       {children}
     </DataContext.Provider>

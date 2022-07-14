@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { List } from "./components/List";
 import { Plus } from "./components/Svgs";
 import { useDataContext } from "./context/DataContext";
 
 function App() {
-  const { data } = useDataContext();
+  const { data, addList } = useDataContext();
+
+  const clickHandler = () => {
+    addList();
+  };
 
   return (
     <div className="app px-3 px-sm-4 d-grid justify-content-center align-items-start gap-4">
       {data.map((list) => (
-        <List key={list.id} title={list.title} cards={list.cards} />
+        <List key={list.id} list={list} isNew={!list.title} />
       ))}
 
       <Button
@@ -24,6 +27,7 @@ function App() {
           width: "max-content",
           padding: ".8rem 1.6rem",
         }}
+        onClick={clickHandler}
       >
         <Plus color="#fff" /> Add Another Card
       </Button>
