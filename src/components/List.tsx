@@ -22,7 +22,7 @@ export const List = ({
   list: ListType;
   isNew: boolean;
 }) => {
-  const { addCard, editListTitle } = useDataContext();
+  const { addCard, editListTitle, removeList } = useDataContext();
 
   const inputField = useRef<HTMLInputElement>(null);
 
@@ -30,8 +30,12 @@ export const List = ({
   const [isTyping, setIsTyping] = useState(isNew);
 
   const blurHandler = () => {
-    setIsTyping(false);
-    editListTitle(list.id, value);
+    if (value.trim()) {
+      setIsTyping(false);
+      editListTitle(list.id, value);
+    } else {
+      isNew ? removeList(list.id) : console.log("no title");
+    }
   };
 
   useEffect(() => {
