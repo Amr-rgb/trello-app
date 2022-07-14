@@ -7,7 +7,7 @@ type CardType = {
 };
 
 export const Card = ({ card }: { card: CardType }) => {
-  const { editCard } = useDataContext();
+  const { editCard, removeCard } = useDataContext();
 
   const inputField = useRef<HTMLInputElement>(null);
 
@@ -15,8 +15,12 @@ export const Card = ({ card }: { card: CardType }) => {
   const [isTyping, setIsTyping] = useState(false);
 
   const clickHandler = () => {
-    setIsTyping(false);
-    editCard(card.id, value);
+    if (value.trim()) {
+      setIsTyping(false);
+      editCard(card.id, value);
+    } else {
+      removeCard(card.id);
+    }
   };
 
   useEffect(() => {
