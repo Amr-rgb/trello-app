@@ -17,6 +17,7 @@ type DataContextProps = {
   addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
+  editListTitle: (id: number, title: string) => void;
 };
 
 const DataContext = createContext({} as DataContextProps);
@@ -75,8 +76,22 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const editListTitle = (id: number, title: string) => {
+    setData((prev) => {
+      return prev.map((list) => {
+        if (list.id === id) {
+          return { ...list, title: title };
+        } else {
+          return list;
+        }
+      });
+    });
+  };
+
   return (
-    <DataContext.Provider value={{ data, addCard, editCard, removeCard }}>
+    <DataContext.Provider
+      value={{ data, addCard, editCard, removeCard, editListTitle }}
+    >
       {children}
     </DataContext.Provider>
   );

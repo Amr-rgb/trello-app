@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Button, Card as CardBs } from "react-bootstrap";
 import { useDataContext } from "../context/DataContext";
 import { Card } from "./Card";
@@ -14,17 +15,54 @@ type ListType = {
   cards: CardType[];
 };
 
-export const List = ({ list }: { list: ListType }) => {
-  const { addCard } = useDataContext();
+export const List = ({
+  list,
+  isNew = true,
+}: {
+  list: ListType;
+  isNew: boolean;
+}) => {
+  const { addCard, editListTitle } = useDataContext();
 
-  const clickHandler = () => {
-    addCard(list.id, "");
+  const inputField = useRef<HTMLInputElement>(null);
+
+  const [value, setValue] = useState(list.title);
+  const [isTyping, setIsTyping] = useState(isNew);
+
+  const blurHandler = () => {
+    setIsTyping(false);
+    editListTitle(list.id, value);
   };
+
+  useEffect(() => {
+    if (isTyping) {
+      inputField.current?.focus();
+    }
+  }, [isTyping]);
 
   return (
     <CardBs className="card-container">
       <CardBs.Body>
-        <CardBs.Title className="mt-1 ms-3 pt-2 pb-4 fs-6 fw-bold">
+        <input
+          ref={inputField}
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="border-0 mt-1 mb-2 ms-3 pt-1 pb-4 fw-bold"
+          style={{
+            width: "calc(100% - 1rem)",
+            outline: "none",
+            display: isTyping ? "block" : "none",
+          }}
+          onBlur={blurHandler}
+        />
+        <CardBs.Title
+          className="mt-1 ms-3 pt-2 pb-4 fs-6 fw-bold"
+          style={{
+            display: isTyping ? "none" : "block",
+          }}
+          onClick={() => setIsTyping(true)}
+        >
           {list.title}
         </CardBs.Title>
 
@@ -41,7 +79,7 @@ export const List = ({ list }: { list: ListType }) => {
             boxShadow: "none",
             marginTop: "2rem",
           }}
-          onClick={clickHandler}
+          onClick={() => addCard(list.id, "")}
         >
           <Plus color="#000" /> Add Another Card
         </Button>
