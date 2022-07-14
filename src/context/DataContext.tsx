@@ -14,6 +14,7 @@ type ListType = {
 
 type DataContextProps = {
   data: ListType[];
+  addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
 };
@@ -26,6 +27,21 @@ export const useDataContext = () => {
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState(jsonData.lists);
+
+  const addCard = (listId: number, title: string) => {
+    setData((prev) => {
+      return prev.map((list) => {
+        if (list.id === listId) {
+          return {
+            ...list,
+            cards: [...list.cards, { id: new Date().getTime(), title }],
+          };
+        } else {
+          return list;
+        }
+      });
+    });
+  };
 
   const editCard = (id: number, newTitle: string) => {
     setData((prev) => {
@@ -60,7 +76,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <DataContext.Provider value={{ data, editCard, removeCard }}>
+    <DataContext.Provider value={{ data, addCard, editCard, removeCard }}>
       {children}
     </DataContext.Provider>
   );

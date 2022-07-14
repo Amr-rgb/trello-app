@@ -6,13 +6,19 @@ type CardType = {
   title: string;
 };
 
-export const Card = ({ card }: { card: CardType }) => {
+export const Card = ({
+  card,
+  isNew = true,
+}: {
+  card: CardType;
+  isNew: boolean;
+}) => {
   const { editCard, removeCard } = useDataContext();
 
   const inputField = useRef<HTMLInputElement>(null);
 
   const [value, setValue] = useState(card.title);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(isNew);
 
   const clickHandler = () => {
     if (value.trim()) {

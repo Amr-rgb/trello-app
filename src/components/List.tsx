@@ -1,4 +1,5 @@
 import { Button, Card as CardBs } from "react-bootstrap";
+import { useDataContext } from "../context/DataContext";
 import { Card } from "./Card";
 import { Plus } from "./Svgs";
 
@@ -8,20 +9,27 @@ type CardType = {
 };
 
 type ListType = {
+  id: number;
   title: string;
   cards: CardType[];
 };
 
-export const List = ({ title, cards }: ListType) => {
+export const List = ({ list }: { list: ListType }) => {
+  const { addCard } = useDataContext();
+
+  const clickHandler = () => {
+    addCard(list.id, "");
+  };
+
   return (
     <CardBs className="card-container">
       <CardBs.Body>
         <CardBs.Title className="mt-1 ms-3 pt-2 pb-4 fs-6 fw-bold">
-          {title}
+          {list.title}
         </CardBs.Title>
 
-        {cards.map((card) => (
-          <Card key={card.id} card={card} />
+        {list.cards.map((card) => (
+          <Card key={card.id} card={card} isNew={card.title === ""} />
         ))}
 
         <Button
@@ -33,6 +41,7 @@ export const List = ({ title, cards }: ListType) => {
             boxShadow: "none",
             marginTop: "2rem",
           }}
+          onClick={clickHandler}
         >
           <Plus color="#000" /> Add Another Card
         </Button>
