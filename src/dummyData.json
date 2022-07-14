@@ -1,0 +1,33 @@
+{
+  "lists": [
+    {
+      "id": 0,
+      "title": "To Do",
+      "cards": [
+        {
+          "id": 0,
+          "title": "learn react"
+        },
+        {
+          "id": 1,
+          "title": "do something else"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "In Progress",
+      "cards": [
+        {
+          "id": 3,
+          "title": "learn react"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Done",
+      "cards": []
+    }
+  ]
+}
