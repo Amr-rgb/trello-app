@@ -1,21 +1,27 @@
-import { Button, Card } from "react-bootstrap";
+import { Button, Card as CardBs } from "react-bootstrap";
+import { Card } from "./Card";
 import { Plus } from "./Svgs";
 
-export const List = ({ title, items }: { title: string; items: string[] }) => {
-  return (
-    <Card className="card-container">
-      <Card.Body>
-        <Card.Title className="mt-1 ms-3 pt-2 pb-4 fs-6 fw-bold">
-          {title}
-        </Card.Title>
+type CardType = {
+  id: number;
+  title: string;
+};
 
-        {items.map((item) => (
-          <p
-            className="p-3 mb-2"
-            style={{ background: "#F6F6F6", borderRadius: "12px" }}
-          >
-            {item}
-          </p>
+type ListType = {
+  title: string;
+  cards: CardType[];
+};
+
+export const List = ({ title, cards }: ListType) => {
+  return (
+    <CardBs className="card-container">
+      <CardBs.Body>
+        <CardBs.Title className="mt-1 ms-3 pt-2 pb-4 fs-6 fw-bold">
+          {title}
+        </CardBs.Title>
+
+        {cards.map((card) => (
+          <Card key={card.id} card={card} />
         ))}
 
         <Button
@@ -30,7 +36,7 @@ export const List = ({ title, items }: { title: string; items: string[] }) => {
         >
           <Plus color="#000" /> Add Another Card
         </Button>
-      </Card.Body>
-    </Card>
+      </CardBs.Body>
+    </CardBs>
   );
 };
