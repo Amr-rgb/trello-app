@@ -34,7 +34,8 @@ export const List = ({
       setIsTyping(false);
       editListTitle(list.id, value);
     } else {
-      isNew ? removeList(list.id) : console.log("no title");
+      isNew ? removeList(list.id) : setIsTyping(false);
+      editListTitle(list.id, "NO-TITLE");
     }
   };
 
