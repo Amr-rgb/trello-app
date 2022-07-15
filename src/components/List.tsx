@@ -7,6 +7,7 @@ import { Plus } from "./Svgs";
 type CardType = {
   id: number;
   title: string;
+  done: boolean;
 };
 
 type ListType = {

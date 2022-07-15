@@ -4,6 +4,7 @@ import jsonData from "./../dummyData.json";
 type CardType = {
   id: number;
   title: string;
+  done: boolean;
 };
 
 type ListType = {
@@ -17,6 +18,7 @@ type DataContextProps = {
   addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
+  toggleDone: (id: number) => void;
   addList: () => void;
   editListTitle: (id: number, title: string) => void;
   removeList: (id: number) => void;
@@ -37,7 +39,10 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         if (list.id === listId) {
           return {
             ...list,
-            cards: [...list.cards, { id: new Date().getTime(), title }],
+            cards: [
+              ...list.cards,
+              { id: new Date().getTime(), title, done: false },
+            ],
           };
         } else {
           return list;
@@ -70,6 +75,23 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
           return {
             ...list,
             cards: list.cards.filter((card) => card.id !== id),
+          };
+        } else {
+          return list;
+        }
+      });
+    });
+  };
+
+  const toggleDone = (id: number) => {
+    setData((prev) => {
+      return prev.map((list) => {
+        if (list.cards.find((card) => card.id === id)) {
+          return {
+            ...list,
+            cards: list.cards.map((card) => {
+              return card.id === id ? { ...card, done: !card.done } : card;
+            }),
           };
         } else {
           return list;
@@ -116,6 +138,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         addCard,
         editCard,
         removeCard,
+        toggleDone,
         addList,
         editListTitle,
         removeList,

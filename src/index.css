@@ -60,3 +60,16 @@ body::after {
     grid-auto-flow: dense;
   }
 }
+
+.trigger {
+  opacity: 0;
+}
+
+.trigger.done {
+  opacity: 1;
+}
+
+.card-content:hover .trigger {
+  transition: opacity 0.3s;
+  opacity: 1 !important;
+}
