@@ -73,10 +73,15 @@ export const List = ({
           {list.title}
         </CardBs.Title>
 
-        {list.cardIds.map((id) => {
+        {list.cardIds.map((id, idx) => {
           const card = list.cards.find((card) => card.id === id);
           return (
-            <Card key={card?.id} card={card!} isNew={card?.title === ""} />
+            <Card
+              key={card?.id}
+              card={card!}
+              idx={idx}
+              isNew={card?.title === ""}
+            />
           );
         })}
 
