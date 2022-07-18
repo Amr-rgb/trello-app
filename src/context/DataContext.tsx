@@ -11,6 +11,7 @@ type ListType = {
   id: number;
   title: string;
   cards: CardType[];
+  cardIds: number[];
 };
 
 type DataContextProps = {
@@ -108,6 +109,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
           id: new Date().getTime(),
           title: "",
           cards: [],
+          cardIds: [],
         },
       ];
     });

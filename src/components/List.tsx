@@ -14,6 +14,7 @@ type ListType = {
   id: number;
   title: string;
   cards: CardType[];
+  cardIds: number[];
 };
 
 export const List = ({

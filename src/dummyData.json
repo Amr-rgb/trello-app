@@ -14,7 +14,8 @@
           "title": "do something else",
           "done": false
         }
-      ]
+      ],
+      "cardIds": [0, 1]
     },
     {
       "id": 1,
@@ -25,12 +26,14 @@
           "title": "learn react",
           "done": false
         }
-      ]
+      ],
+      "cardIds": [3]
     },
     {
       "id": 2,
       "title": "Done",
-      "cards": []
+      "cards": [],
+      "cardIds": []
     }
   ]
 }
