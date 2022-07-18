@@ -73,9 +73,12 @@ export const List = ({
           {list.title}
         </CardBs.Title>
 
-        {list.cards.map((card) => (
-          <Card key={card.id} card={card} isNew={card.title === ""} />
-        ))}
+        {list.cardIds.map((id) => {
+          const card = list.cards.find((card) => card.id === id);
+          return (
+            <Card key={card?.id} card={card!} isNew={card?.title === ""} />
+          );
+        })}
 
         <Button
           className="d-flex align-items-center gap-2"
