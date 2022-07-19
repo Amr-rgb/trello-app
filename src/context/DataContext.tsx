@@ -55,7 +55,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const editCard = (id: number, newTitle: string) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -72,7 +71,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const removeCard = (id: number) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -88,7 +86,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const toggleDone = (id: number) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -105,7 +102,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const addList = () => {
     setData((prev) => {
       return [
@@ -119,7 +115,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       ];
     });
   };
-
   const editListTitle = (id: number, title: string) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -131,13 +126,11 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const removeList = (id: number) => {
     setData((prev) => {
       return prev.filter((list) => list.id !== id);
     });
   };
-
   const moveCard = (dragIndex: number, hoverIndex: number, listId: number) => {
     setData((prev) => {
       return prev.map((list) => {
