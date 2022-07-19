@@ -11,10 +11,12 @@ type ListType = {
   id: number;
   title: string;
   cards: CardType[];
+  cardIds: number[];
 };
 
 type DataContextProps = {
   data: ListType[];
+  draggedId?: number;
   addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
@@ -22,6 +24,8 @@ type DataContextProps = {
   addList: () => void;
   editListTitle: (id: number, title: string) => void;
   removeList: (id: number) => void;
+  moveCard: (dragIndex: number, hoverIndex: number, listId: number) => void;
+  setDraggedId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 const DataContext = createContext({} as DataContextProps);
@@ -32,17 +36,18 @@ export const useDataContext = () => {
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState(jsonData.lists);
+  const [draggedId, setDraggedId] = useState<number>();
 
   const addCard = (listId: number, title: string) => {
     setData((prev) => {
       return prev.map((list) => {
         if (list.id === listId) {
+          const newId = new Date().getTime();
+
           return {
             ...list,
-            cards: [
-              ...list.cards,
-              { id: new Date().getTime(), title, done: false },
-            ],
+            cards: [...list.cards, { id: newId, title, done: false }],
+            cardIds: [...list.cardIds, newId],
           };
         } else {
           return list;
@@ -50,7 +55,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const editCard = (id: number, newTitle: string) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -67,7 +71,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const removeCard = (id: number) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -75,6 +78,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
           return {
             ...list,
             cards: list.cards.filter((card) => card.id !== id),
+            cardIds: list.cardIds.filter((cardId) => cardId !== id),
           };
         } else {
           return list;
@@ -82,7 +86,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const toggleDone = (id: number) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -99,7 +102,6 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const addList = () => {
     setData((prev) => {
       return [
@@ -108,11 +110,11 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
           id: new Date().getTime(),
           title: "",
           cards: [],
+          cardIds: [],
         },
       ];
     });
   };
-
   const editListTitle = (id: number, title: string) => {
     setData((prev) => {
       return prev.map((list) => {
@@ -124,10 +126,25 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       });
     });
   };
-
   const removeList = (id: number) => {
     setData((prev) => {
       return prev.filter((list) => list.id !== id);
+    });
+  };
+  const moveCard = (dragIndex: number, hoverIndex: number, listId: number) => {
+    setData((prev) => {
+      return prev.map((list) => {
+        if (list.id === listId && list.id === draggedId) {
+          const newCardIds = [...list.cardIds];
+          const ourId = newCardIds.splice(dragIndex, 1);
+          newCardIds.splice(hoverIndex, 0, ourId[0]);
+
+          return {
+            ...list,
+            cardIds: newCardIds,
+          };
+        } else return list;
+      });
     });
   };
 
@@ -135,6 +152,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     <DataContext.Provider
       value={{
         data,
+        draggedId,
         addCard,
         editCard,
         removeCard,
@@ -142,6 +160,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         addList,
         editListTitle,
         removeList,
+        moveCard,
+        setDraggedId,
       }}
     >
       {children}
