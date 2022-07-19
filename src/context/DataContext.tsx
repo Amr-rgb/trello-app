@@ -23,7 +23,12 @@ type DataContextProps = {
   addList: () => void;
   editListTitle: (id: number, title: string) => void;
   removeList: (id: number) => void;
-  moveCard: (dragIndex: number, hoverIndex: number, id: number) => void;
+  moveCard: (
+    dragIndex: number,
+    hoverIndex: number,
+    listId: number,
+    draggedId?: number
+  ) => void;
 };
 
 const DataContext = createContext({} as DataContextProps);
@@ -135,19 +140,24 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const moveCard = (dragIndex: number, hoverIndex: number, id: number) => {
+  const moveCard = (
+    dragIndex: number,
+    hoverIndex: number,
+    listId: number,
+    draggedId?: number
+  ) => {
     setData((prev) => {
       return prev.map((list) => {
-        if (list.id !== id) return list;
+        if (list.id === listId && list.id === draggedId) {
+          const newCardIds = [...list.cardIds];
+          const ourId = newCardIds.splice(dragIndex, 1);
+          newCardIds.splice(hoverIndex, 0, ourId[0]);
 
-        const newCardIds = [...list.cardIds];
-        const ourId = newCardIds.splice(dragIndex, 1);
-        newCardIds.splice(hoverIndex, 0, ourId[0]);
-
-        return {
-          ...list,
-          cardIds: newCardIds,
-        };
+          return {
+            ...list,
+            cardIds: newCardIds,
+          };
+        } else return list;
       });
     });
   };

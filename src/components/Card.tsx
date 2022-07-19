@@ -20,13 +20,19 @@ interface DragItem {
 }
 
 export const Card = ({
+  listId,
   card,
   idx,
   isNew = true,
+  draggedId,
+  setDraggedId,
 }: {
+  listId: number;
   card: CardType;
   idx: number;
   isNew: boolean;
+  draggedId?: number;
+  setDraggedId: React.Dispatch<React.SetStateAction<number | undefined>>;
 }) => {
   const { editCard, removeCard, toggleDone, moveCard, data } = useDataContext();
 
@@ -55,7 +61,8 @@ export const Card = ({
     if (isTyping) {
       inputField.current?.focus();
     }
-  }, [isTyping]);
+    console.log(draggedId);
+  }, [isTyping, draggedId]);
 
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
@@ -109,8 +116,9 @@ export const Card = ({
       }
 
       // Time to actually perform the action
-      moveCard(dragIndex, hoverIndex, card.id);
-      console.log(data);
+      // console.log(draggedId);
+      moveCard(dragIndex, hoverIndex, listId, draggedId);
+      // console.log(data);
 
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
@@ -123,7 +131,8 @@ export const Card = ({
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id: card.id, idx };
+      setDraggedId(listId);
+      return { id: card.id, index: idx };
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
