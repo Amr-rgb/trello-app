@@ -6,11 +6,13 @@
       "cards": [
         {
           "id": 0,
-          "title": "learn react"
+          "title": "learn react",
+          "done": true
         },
         {
           "id": 1,
-          "title": "do something else"
+          "title": "do something else",
+          "done": false
         }
       ]
     },
@@ -20,7 +22,8 @@
       "cards": [
         {
           "id": 3,
-          "title": "learn react"
+          "title": "learn react",
+          "done": false
         }
       ]
     },
