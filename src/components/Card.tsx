@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useDataContext } from "../context/DataContext";
 import { Check, Trash } from "./Svgs";
-<<<<<<< HEAD
-=======
 // dnd
 import type { Identifier, XYCoord } from "dnd-core";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "./ItemTypes";
->>>>>>> dnd-feature
 
 type CardType = {
   id: number;
