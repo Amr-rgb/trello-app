@@ -6,7 +6,6 @@ import { useDataContext } from "./context/DataContext";
 
 function App() {
   const { data, addList } = useDataContext();
-  const [draggedId, setDraggedId] = useState<number>();
 
   const clickHandler = () => {
     addList();
@@ -15,13 +14,7 @@ function App() {
   return (
     <div className="app px-3 px-sm-4 d-grid justify-content-center align-items-start gap-4">
       {data.map((list) => (
-        <List
-          key={list.id}
-          list={list}
-          isNew={!list.title}
-          draggedId={draggedId}
-          setDraggedId={setDraggedId}
-        />
+        <List key={list.id} list={list} isNew={!list.title} />
       ))}
 
       <Button

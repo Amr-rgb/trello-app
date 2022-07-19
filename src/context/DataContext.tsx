@@ -16,6 +16,7 @@ type ListType = {
 
 type DataContextProps = {
   data: ListType[];
+  draggedId?: number;
   addCard: (listId: number, title: string) => void;
   editCard: (id: number, newTitle: string) => void;
   removeCard: (id: number) => void;
@@ -23,12 +24,8 @@ type DataContextProps = {
   addList: () => void;
   editListTitle: (id: number, title: string) => void;
   removeList: (id: number) => void;
-  moveCard: (
-    dragIndex: number,
-    hoverIndex: number,
-    listId: number,
-    draggedId?: number
-  ) => void;
+  moveCard: (dragIndex: number, hoverIndex: number, listId: number) => void;
+  setDraggedId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 const DataContext = createContext({} as DataContextProps);
@@ -39,6 +36,7 @@ export const useDataContext = () => {
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState(jsonData.lists);
+  const [draggedId, setDraggedId] = useState<number>();
 
   const addCard = (listId: number, title: string) => {
     setData((prev) => {
@@ -140,12 +138,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const moveCard = (
-    dragIndex: number,
-    hoverIndex: number,
-    listId: number,
-    draggedId?: number
-  ) => {
+  const moveCard = (dragIndex: number, hoverIndex: number, listId: number) => {
     setData((prev) => {
       return prev.map((list) => {
         if (list.id === listId && list.id === draggedId) {
@@ -166,6 +159,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     <DataContext.Provider
       value={{
         data,
+        draggedId,
         addCard,
         editCard,
         removeCard,
@@ -174,6 +168,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         editListTitle,
         removeList,
         moveCard,
+        setDraggedId,
       }}
     >
       {children}

@@ -20,13 +20,9 @@ type ListType = {
 export const List = ({
   list,
   isNew = true,
-  draggedId,
-  setDraggedId,
 }: {
   list: ListType;
   isNew: boolean;
-  draggedId?: number;
-  setDraggedId: React.Dispatch<React.SetStateAction<number | undefined>>;
 }) => {
   const { addCard, editListTitle, removeList } = useDataContext();
 
@@ -86,8 +82,6 @@ export const List = ({
               card={card!}
               idx={idx}
               isNew={card?.title === ""}
-              draggedId={draggedId}
-              setDraggedId={setDraggedId}
             />
           );
         })}

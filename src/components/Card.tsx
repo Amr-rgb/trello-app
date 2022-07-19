@@ -24,17 +24,14 @@ export const Card = ({
   card,
   idx,
   isNew = true,
-  draggedId,
-  setDraggedId,
 }: {
   listId: number;
   card: CardType;
   idx: number;
   isNew: boolean;
-  draggedId?: number;
-  setDraggedId: React.Dispatch<React.SetStateAction<number | undefined>>;
 }) => {
-  const { editCard, removeCard, toggleDone, moveCard, data } = useDataContext();
+  const { editCard, removeCard, toggleDone, moveCard, setDraggedId, data } =
+    useDataContext();
 
   const inputField = useRef<HTMLInputElement>(null);
 
@@ -61,8 +58,7 @@ export const Card = ({
     if (isTyping) {
       inputField.current?.focus();
     }
-    console.log(draggedId);
-  }, [isTyping, draggedId]);
+  }, [isTyping]);
 
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
@@ -117,7 +113,7 @@ export const Card = ({
 
       // Time to actually perform the action
       // console.log(draggedId);
-      moveCard(dragIndex, hoverIndex, listId, draggedId);
+      moveCard(dragIndex, hoverIndex, listId);
       // console.log(data);
 
       // Note: we're mutating the monitor item here!
