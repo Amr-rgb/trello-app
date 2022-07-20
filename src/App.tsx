@@ -25,7 +25,7 @@ function App() {
         }}
         onClick={() => addList()}
       >
-        <Plus color="#fff" /> Add Another Card
+        <Plus color="#fff" /> Add Another List
       </Button>
     </div>
   );
