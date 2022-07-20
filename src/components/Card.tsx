@@ -38,16 +38,11 @@ export const Card = ({
   const [isTyping, setIsTyping] = useState(isNew);
 
   const blurHandler = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    if (
-      e.nativeEvent.explicitOriginalTarget === e.target.nextSibling ||
-      e.nativeEvent.explicitOriginalTarget.nearestViewportElement ===
-        e.target.nextSibling
-    ) {
-      removeCard(card.id);
-    }
     if (value.trim()) {
-      setIsTyping(false);
-      value.trim() !== card.title && editCard(card.id, value);
+      setTimeout(() => {
+        setIsTyping(false);
+        value.trim() !== card.title && editCard(card.id, value);
+      }, 100);
     } else {
       removeCard(card.id);
     }
@@ -153,6 +148,7 @@ export const Card = ({
             transform: "translateY(-50%)",
             boxSizing: "content-box",
           }}
+          onClick={() => removeCard(card.id)}
         />
       </div>
 

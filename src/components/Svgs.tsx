@@ -33,7 +33,13 @@ export const Check = ({ style }: { style: object }) => {
     </svg>
   );
 };
-export const Trash = ({ style }: { style: object }) => {
+export const Trash = ({
+  style,
+  onClick,
+}: {
+  style: object;
+  onClick: () => void;
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +47,7 @@ export const Trash = ({ style }: { style: object }) => {
       y="0px"
       viewBox="0 0 59 59"
       style={style}
+      onClick={onClick}
     >
       <g>
         <path
