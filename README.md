@@ -8,6 +8,10 @@
 
 <br />
 
+### [Live Preview: trelllo.vercel.app](https://trelllo.vercel.app/)
+
+<br />
+
 ### **Used in this project:**
 
 - Vite
