@@ -2,7 +2,11 @@
 
 > a Trello app with new and modern design using React and Typescript
 
-<br/><br/>
+<br/>
+
+![app preview](./public/assets/screenshot-readme.png)
+
+<br />
 
 ### **Used in this project:**
 
@@ -12,8 +16,6 @@
 - Typescript
 - React-bootstrap
 - React-dnd
-
-<br/>
 
 ### **App Features**
 
